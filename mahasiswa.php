@@ -9,7 +9,6 @@ if (defined("IS_INDEX") == false) {
 <?php
 $data = getMahasiswa();
 ?>
-
 <h1>List Mahasiswa</h1>
 
 <div class="container">

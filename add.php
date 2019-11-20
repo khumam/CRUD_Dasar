@@ -4,8 +4,6 @@ if (defined("IS_INDEX") == false) {
     die("Stop. You can't access this file directly.");
 }
 
-
-
 if (isset($_POST['submit'])) {
     $insert = addMhs();
     echo $insert ? "sukses" : "gagal";

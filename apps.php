@@ -3,7 +3,7 @@
 function redirect_to($alamat)
 {
     echo "<script>
-    window.location.href = 'index.php?page=" . $alamat . "'.php</script>";
+    window.location = 'index.php?page=" . $alamat . "'</script>";
 }
 function connect()
 {
@@ -67,4 +67,38 @@ function addMhs()
     $sql = "insert into myTable(nama, alamat, nohp) values('" . $insert['nama'] . "','" . $insert['alamat'] . "','" . $insert['nohp'] . "')";
     $insert = query($sql);
     return $insert ? true : false;
+}
+
+function proses_login($username, $password)
+{
+    $sql = "select * from pengguna where username='$username' and password='" . md5($password) . "'";
+    $data = query($sql);
+    $num = mysqli_num_rows($data);
+
+    if ($num > 0) {
+        return mysqli_fetch_array($data);
+    } else {
+        return false;
+    }
+}
+
+function get_level($id)
+{
+    $sql = "select * from level_pengguna where id_pengguna = $id LIMIT 1";
+    $data = query($sql);
+    $num = mysqli_num_rows($data);
+
+    if ($num > 0) {
+        return mysqli_fetch_array($data);
+    } else {
+        return false;
+    }
+}
+
+function get_menu($id_level)
+{
+    $sql = "select b.* from level_menu as a join menu as b on a.id_menu = b.id where a.id_level=$id_level";
+    $data = query($sql);
+
+    return $data;
 }
