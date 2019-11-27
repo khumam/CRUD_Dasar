@@ -102,3 +102,21 @@ function get_menu($id_level)
 
     return $data;
 }
+
+function get_datanama()
+{
+    $sql = "SELECT LEFT(nama, 1) AS first_letter, COUNT(*) AS total FROM myTable GROUP BY first_letter";
+    $data = query($sql);
+
+    return $data;
+}
+
+function random_color_part()
+{
+    return str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
+}
+
+function random_color()
+{
+    return random_color_part() . random_color_part() . random_color_part();
+}

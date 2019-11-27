@@ -25,7 +25,7 @@ if ($cek_login) {
         redirect_to('logout');
     }
 
-    redirect_to("beranda");
+    redirect_to("dashboard");
 } else {
     redirect_to("login&error=1");
 }

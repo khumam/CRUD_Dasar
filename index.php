@@ -44,32 +44,16 @@ if (isset($_GET['page'])) {
                 </div>
                 <div class="sidebar-wrapper">
                     <ul class="nav">
-                        <?php $menu = get_menu($_SESSION['id_user']);
-                            ?>
-                        <li class="nav-item <?php if ($_GET['page'] == 'beranda') echo 'active'; ?>">
-                            <a class="nav-link" href="index.php?page=beranda">
-                                <i class="material-icons">dashboard</i>
-                                <p>Dashboard</p>
-                            </a>
-                        </li>
-                        <li class="nav-item <?php if ($_GET['page'] == 'mahasiswa') echo 'active'; ?>">
-                            <a class="nav-link" href="index.php?page=mahasiswa">
-                                <i class="material-icons">face</i>
-                                <p>Mahasiswa</p>
-                            </a>
-                        </li>
-                        <li class="nav-item <?php if ($_GET['page'] == 'profil') echo 'active'; ?>">
-                            <a class="nav-link" href="index.php?page=profil">
-                                <i class="material-icons">perm_identity</i>
-                                <p>Profil</p>
-                            </a>
-                        </li>
-                        <li class="nav-item <?php if ($_GET['page'] == 'settings') echo 'active'; ?>">
-                            <a class="nav-link" href="index.php?page=settings">
-                                <i class="material-icons">settings_applications</i>
-                                <p>Settings</p>
-                            </a>
-                        </li>
+                        <?php $menus = get_menu($_SESSION['id_level']);
+                            while ($row = mysqli_fetch_assoc($menus)) { ?>
+                            <li class="nav-item <?php if ($_GET['page'] == $row['url']) echo 'active'; ?>">
+                                <a class="nav-link" href="index.php?page=<?php echo $row['url']; ?>">
+                                    <i class="material-icons">dashboard</i>
+                                    <p><?php echo $row['nama_menu']; ?></p>
+                                </a>
+                            <?php $allowedPages[] = $row['url'];
+                                } ?>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -116,7 +100,12 @@ if (isset($_GET['page'])) {
 
                     $kecuali = [
                         'login',
-                        'proses-login'
+                        'proses-login',
+
+                    ];
+
+                    $bypass = [
+                        'logout'
                     ];
 
                     if (!in_array($page, $kecuali)) {
@@ -127,7 +116,11 @@ if (isset($_GET['page'])) {
 
                     if (isset($_SESSION['username'])) {
                         if ($page == 'login') {
-                            redirect_to('beranda');
+                            redirect_to('dashboard');
+                        }
+
+                        if (in_array($page, $allowedPages) == false && in_array($page, $bypass) == false) {
+                            die("Not Allowed");
                         }
                     }
 
